@@ -1,17 +1,10 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.openstreetmap.gui.jmapviewer.*;
 import org.openstreetmap.gui.jmapviewer.events.JMVCommandEvent;
@@ -29,7 +22,7 @@ public class Map extends JFrame implements JMapViewerEventListener {
     private final JLabel mperpLabelValue;
 
     public Map() {
-        super("JMapViewer Demo");
+        super("OSM Search System");
 
         treeMap = new JMapViewerTree("Zones");
 
@@ -49,6 +42,7 @@ public class Map extends JFrame implements JMapViewerEventListener {
         JLabel zoomLabel = new JLabel("Zoom: ");
         zoomValue = new JLabel(String.format("%s", map().getZoom()));
 
+        add(new SearchingPanel(this), BorderLayout.EAST);
         add(panel, BorderLayout.NORTH);
         add(helpPanel, BorderLayout.SOUTH);
         panel.add(panelTop, BorderLayout.NORTH);
@@ -127,7 +121,8 @@ public class Map extends JFrame implements JMapViewerEventListener {
                 } else {
                     map().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
-                if (showToolTip.isSelected()) map().setToolTipText(map().getPosition(p).toString());
+                if (showToolTip.isSelected())
+                    map().setToolTipText(map().getPosition(p).toString());
             }
         });
     }
@@ -150,4 +145,9 @@ public class Map extends JFrame implements JMapViewerEventListener {
             updateZoomParameters();
         }
     }
+
+    public void setToPoint(Coordinate point) {
+        map().setDisplayPosition(point, 17);
+    }
+
 }
